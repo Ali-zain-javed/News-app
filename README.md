@@ -1,70 +1,71 @@
-# Getting Started with Create React App
+# Frontend Take-Home Challenge
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to the take-home challenge for the Frontend web developer position. We are excited to see your skills and experience in action. The challenge is to create the user interface for a news aggregator website that pulls articles from various sources and displays them in a clean, easy-to-read format.
 
-## Available Scripts
+# Requirements:
 
-In the project directory, you can run:
+1. Article search and filtering: Users should be able to search for articles by keyword and filter the results by date, category, and source.
 
-### `npm start`
+   # Module/General News file
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+   handle filters with search bar and listing with pagincation
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+2. Personalized news feed: Users should be able to customize their news feed by selecting their preferred sources, categories, and authors.
 
-### `npm test`
+   # Module/Personalized News
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+   handle personalized filter with listing and pagination , personalized data saved in localsotrage for next time auto load data base on preference
 
-### `npm run build`
+3. Mobile-responsive design: The website should be optimized for viewing on mobile devices.
+   # Mobile Responsive
+   whole app and boht module are mobile resposive with tailwind css
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Docker File Configuration
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+FROM node:18 AS build
+WORKDIR /app
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+COPY package.json package-lock.json ./
 
-### `npm run eject`
+# Install dependencies
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+RUN npm install
+COPY . .
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+RUN npm run build
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+FROM nginx:alpine
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+COPY --from=build /app/build /usr/share/nginx/html
 
-## Learn More
+EXPOSE 80
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+CMD ["nginx", "-g", "daemon off;"]
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+# Application working
 
-### Code Splitting
+# 1. Build the Docker image
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Open a terminal, navigate to the directory where your Dockerfile is located, and run the following command to build the Docker image:
 
-### Analyzing the Bundle Size
+```
+docker build -t news-app .
+or
+sudo docker build -t news-app .
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+# 2. Run the Docker container
 
-### Making a Progressive Web App
+Once the Docker image is built, you can run a container based on that image using the following command:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```
+sudo docker run -p 3000:80 news-app
+```
 
-### Advanced Configuration
+# 3. Other-way for application working
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+npm install & npm start
 
-### Deployment
+# 4. Access your React application
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+You can now access your React application by opening a web browser and navigating to `http://localhost:3000`.
