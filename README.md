@@ -67,3 +67,9 @@ npm install & npm start
 # 4. Access your React application
 
 You can now access your React application by opening a web browser and navigating to `http://localhost:3000`.
+
+# App images
+<img width="1510" alt="image" src="https://github.com/user-attachments/assets/b430ecdc-13ad-443b-a834-8cc0cc5772a2">
+<img width="1510" alt="image" src="https://github.com/user-attachments/assets/e2cc42e3-19c6-41dd-ac44-943a55f36f27">
+
+
